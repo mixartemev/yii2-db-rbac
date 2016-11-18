@@ -15,7 +15,7 @@ use yii\base\Theme;
 
 class Yii2DbRbac extends Module
 {
-    public $controllerNamespace = 'developeruz\db_rbac\controllers';
+    public $controllerNamespace = 'mixartemev\db_rbac\controllers';
     public $userClass;
     public $theme = false;
 
@@ -35,7 +35,7 @@ class Yii2DbRbac extends Module
             Yii::$app->i18n->translations['db_rbac'] = [
                 'class' => 'yii\i18n\PhpMessageSource',
                 'sourceLanguage' => 'ru-Ru',
-                'basePath' => '@developeruz/db_rbac/messages',
+                'basePath' => '@mixartemev/db_rbac/messages',
             ];
         }
     }

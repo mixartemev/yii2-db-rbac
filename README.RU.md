@@ -8,7 +8,7 @@
 
 ###Установка:###
 ```bash
-$ php composer.phar require developeruz/yii2-db-rbac "*"
+$ php composer.phar require mixartemev/yii2-db-rbac "*"
 ```
 
 Для корректной работы модуля необходимо настроить authManager в конфиге приложения (common/config/main.php для advanced или config/web.php и config/console  для basic приложения)
@@ -31,7 +31,7 @@ $ yii migrate --migrationPath=@yii/rbac/migrations/
 ```php
   'modules' => [
         'permit' => [
-            'class' => 'developeruz\db_rbac\Yii2DbRbac',
+            'class' => 'mixartemev\db_rbac\Yii2DbRbac',
         ],
     ],
 ```
@@ -39,7 +39,7 @@ $ yii migrate --migrationPath=@yii/rbac/migrations/
 ```php
   'modules' => [
         'permit' => [
-            'class' => 'developeruz\db_rbac\Yii2DbRbac',
+            'class' => 'mixartemev\db_rbac\Yii2DbRbac',
             'layout' => '//admin'
         ],
     ],
@@ -72,7 +72,7 @@ $ yii migrate --migrationPath=@yii/rbac/migrations/
     ],
 ```
 
-Класс User должен реализовывать интерфейс `developeruz\db_rbac\interfaces\UserRbacInterface`. 
+Класс User должен реализовывать интерфейс `mixartemev\db_rbac\interfaces\UserRbacInterface`.
 В большинстве случаев придется дописать в нем 1 функцию `getUserName()` которая будет возвращать отображаемое имя пользователя.
 ```php
 use mixartemev\db_rbac\interfaces\UserRbacInterface;

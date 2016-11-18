@@ -1,5 +1,5 @@
 {
-    "name": "developeruz/yii2-db-rbac",
+    "name": "mixartemev/yii2-db-rbac",
     "description": "Dynamic control of access rights in YII2",
     "keywords": ["yii", "rbac"],
     "type": "yii2-extension",
@@ -15,11 +15,11 @@
         "yiisoft/yii2": "*"
     },
     "support": {
-        "issues": "https://github.com/developeruz/yii2-db-rbac/issues"
+        "issues": "https://github.com/mixartemev/yii2-db-rbac/issues"
     },
     "autoload": {
         "psr-4": {
-            "developeruz\\db_rbac\\": ""
+            "mixartemev\\db_rbac\\": ""
         }
     }
 }

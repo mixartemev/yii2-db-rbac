@@ -1,7 +1,7 @@
 Dynamic Access Control for Yii2
 ============================================
 
-##### НА РУССКОМ [ТУТ](https://github.com/developeruz/yii2-db-rbac/blob/master/README.RU.md)
+##### НА РУССКОМ [ТУТ](https://github.com/mixartemev/yii2-db-rbac/blob/master/README.RU.md)
 
 The easiest way to create access control in Yii2 without changes in the code.
 
@@ -11,7 +11,7 @@ Behaviour that checks access by the modules rules.
 
 ### Installation guide
 ```bash
-$ php composer.phar require developeruz/yii2-db-rbac "*"
+$ php composer.phar require mixartemev/yii2-db-rbac "*"
 ```
 
 To work correctly, you must configure the module `authManager` in the application config file (`common/config/main.php` for advanced app 
@@ -35,7 +35,7 @@ Include module to the config file (`backend/config/main.php` for advanced app or
 ```php
   'modules' => [
         'permit' => [
-            'class' => 'developeruz\db_rbac\Yii2DbRbac',
+            'class' => 'mixartemev\db_rbac\Yii2DbRbac',
         ],
     ],
 ```
@@ -44,7 +44,7 @@ If you want to setup layout, put it in the following way
 ```php
   'modules' => [
         'permit' => [
-            'class' => 'developeruz\db_rbac\Yii2DbRbac',
+            'class' => 'mixartemev\db_rbac\Yii2DbRbac',
             'layout' => '//admin'
         ],
     ],
@@ -78,7 +78,7 @@ To work correctly, the module should be specified with `User` class in the modul
     ],
 ```
 
-User class should implement `developeruz\db_rbac\interfaces\UserRbacInterface`.
+User class should implement `mixartemev\db_rbac\interfaces\UserRbacInterface`.
 In most cases, you have to add function `getUserName()` which should return user's name.
 
 ```php
