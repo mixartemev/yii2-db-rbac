@@ -1,5 +1,5 @@
 <?php
-namespace developeruz\db_rbac\interfaces;
+namespace mixartemev\db_rbac\interfaces;
 
 
 interface UserRbacInterface {

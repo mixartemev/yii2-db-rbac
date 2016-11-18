@@ -7,15 +7,13 @@
  * @package AccessBehavior for Yii2
  *
  */
-namespace developeruz\db_rbac\behaviors;
+namespace mixartemev\db_rbac\behaviors;
 
 use Yii;
 use yii\behaviors\AttributeBehavior;
 use yii\di\Instance;
 use yii\base\Module;
-use yii\web\Application;
 use yii\web\User;
-use yii\filters\AccessControl;
 use yii\web\ForbiddenHttpException;
 
 class AccessBehavior extends AttributeBehavior {

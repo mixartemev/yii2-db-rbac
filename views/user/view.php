@@ -1,13 +1,17 @@
 <?php
-namespace developeruz\db_rbac\views\user;
+namespace mixartemev\db_rbac\views\user;
 
+use mixartemev\db_rbac\interfaces\UserRbacInterface;
 use Yii;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
+/* @var UserRbacInterface $user */
+/* @var array $user_permit array of permitted roles */
+/* @var array $roles array of all role */
 ?>
 <h3><?=Yii::t('db_rbac', 'Управление ролями пользователя');?> <?= $user->getUserName(); ?></h3>
-<?php $form = ActiveForm::begin(['action' => ["update", 'id' => $user->getId()]]); ?>
+<?php ActiveForm::begin(['action' => ["update", 'id' => $user->getId()]]); ?>
 
 <?= Html::checkboxList('roles', $user_permit, $roles, ['separator' => '<br>']); ?>
 

@@ -75,7 +75,7 @@ $ yii migrate --migrationPath=@yii/rbac/migrations/
 Класс User должен реализовывать интерфейс `developeruz\db_rbac\interfaces\UserRbacInterface`. 
 В большинстве случаев придется дописать в нем 1 функцию `getUserName()` которая будет возвращать отображаемое имя пользователя.
 ```php
-use developeruz\db_rbac\interfaces\UserRbacInterface;
+use mixartemev\db_rbac\interfaces\UserRbacInterface;
 
 class User extends ActiveRecord implements IdentityInterface, UserRbacInterface
 {
@@ -133,7 +133,7 @@ $permissionName - может быть как ролью так и правом
 ###Подключение поведения###
 В конфиге того приложения, доступ к которому следует проверять на лету, необходимо подключить поведение
 ```php
-use developeruz\db_rbac\behaviors\AccessBehavior;
+use mixartemev\db_rbac\behaviors\AccessBehavior;
 
  'as AccessBehavior' => [
         'class' => AccessBehavior::className(),

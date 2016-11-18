@@ -7,11 +7,13 @@
  * @package Yii2DbRbac for Yii2
  *
  */
-namespace developeruz\db_rbac;
+namespace mixartemev\db_rbac;
 
 use Yii;
+use yii\base\Module;
+use yii\base\Theme;
 
-class Yii2DbRbac extends \yii\base\Module
+class Yii2DbRbac extends Module
 {
     public $controllerNamespace = 'developeruz\db_rbac\controllers';
     public $userClass;
@@ -23,7 +25,7 @@ class Yii2DbRbac extends \yii\base\Module
         $this->registerTranslations();
 
         if($this->theme){
-            Yii::$app->view->theme = new \yii\base\Theme($this->theme);
+            Yii::$app->view->theme = new Theme($this->theme);
         }
     }
 

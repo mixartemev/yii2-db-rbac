@@ -82,7 +82,7 @@ User class should implement `developeruz\db_rbac\interfaces\UserRbacInterface`.
 In most cases, you have to add function `getUserName()` which should return user's name.
 
 ```php
-use developeruz\db_rbac\interfaces\UserRbacInterface;
+use mixartemev\db_rbac\interfaces\UserRbacInterface;
 
 class User extends ActiveRecord implements IdentityInterface, UserRbacInterface
 {
@@ -143,7 +143,7 @@ It is also useful for access control with the third party modules.
 You have to include behaviour to the app config file, if you want to check access automatically.
 
 ```php
-use developeruz\db_rbac\behaviors\AccessBehavior;
+use mixartemev\db_rbac\behaviors\AccessBehavior;
 
  'as AccessBehavior' => [
         'class' => AccessBehavior::className(),

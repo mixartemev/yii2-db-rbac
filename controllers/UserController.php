@@ -7,7 +7,7 @@
  * @package UserController for Yii2
  *
  */
-namespace developeruz\db_rbac\controllers;
+namespace mixartemev\db_rbac\controllers;
 
 use Yii;
 use yii\filters\VerbFilter;
@@ -15,7 +15,7 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use yii\web\Controller;
 use yii\web\BadRequestHttpException;
-use developeruz\db_rbac\interfaces\UserRbacInterface;
+use mixartemev\db_rbac\interfaces\UserRbacInterface;
 use yii\web\NotFoundHttpException;
 
 class UserController extends Controller
@@ -89,7 +89,9 @@ class UserController extends Controller
 
     private function findUser($id)
     {
+        /** @var UserRbacInterface $class */
         $class = new Yii::$app->controller->module->params['userClass']();
+        /** @var UserRbacInterface $user */
         $user = $class::findIdentity($id);
         if(empty($user)){
             throw new NotFoundHttpException(Yii::t('db_rbac', 'Пользователь не найден'));

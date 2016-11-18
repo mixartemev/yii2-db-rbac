@@ -1,13 +1,13 @@
 <?php
-namespace developeruz\db_rbac\views\access;
+namespace mixartemev\db_rbac\views\access;
 
 use Yii;
 use yii\helpers\Html;
+use yii\web\View;
 use yii\widgets\ActiveForm;
 
-/* @var $this yii\web\View */
-/* @var $model common\models\Links */
-/* @var $form yii\widgets\ActiveForm */
+/* @var $this View */
+/* @var $form ActiveForm */
 $this->title = Yii::t('db_rbac', 'Новое правило');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('db_rbac', 'Правила доступа'), 'url' => ['permission']];
 $this->params['breadcrumbs'][] = Yii::t('db_rbac', 'Новое правило');
@@ -29,7 +29,7 @@ $this->params['breadcrumbs'][] = Yii::t('db_rbac', 'Новое правило');
         }
         ?>
 
-        <?php $form = ActiveForm::begin(); ?>
+        <?php ActiveForm::begin(); ?>
 
         <div class="form-group">
             <?= Html::label(Yii::t('db_rbac', 'Текстовое описание')); ?>

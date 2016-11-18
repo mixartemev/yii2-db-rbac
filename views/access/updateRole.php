@@ -1,9 +1,14 @@
 <?php
-namespace developeruz\db_rbac\views\access;
+namespace mixartemev\db_rbac\views\access;
 
 use Yii;
 use yii\helpers\Html;
+use yii\rbac\Role;
 use yii\widgets\ActiveForm;
+
+/* @var Role $role */
+/* @var array $role_permit array of permitted permissions */
+/* @var array $permissions array of all permissions */
 
 $this->title = Yii::t('db_rbac', 'Редактирование роли: ') . ' ' . $role->name;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('db_rbac', 'Управление ролями'), 'url' => ['role']];
@@ -27,7 +32,7 @@ $this->params['breadcrumbs'][] = Yii::t('db_rbac', 'Редактирование
         }
         ?>
 
-        <?php $form = ActiveForm::begin(); ?>
+        <?php ActiveForm::begin(); ?>
 
         <div class="form-group">
             <?= Html::label(Yii::t('db_rbac', 'Название роли')); ?>
