@@ -161,6 +161,7 @@ class AccessController extends Controller
 
                 $permit->name = $permission;
                 $permit->description = Yii::$app->request->post('description', '');
+                $permit->ruleName = Yii::$app->request->post('rule_name', '');
                 Yii::$app->authManager->update($name, $permit);
                 return $this->redirect(Url::toRoute([
                     'update-permission',
