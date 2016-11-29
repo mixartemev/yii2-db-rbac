@@ -44,7 +44,12 @@ $this->params['breadcrumbs'][] = Yii::t('db_rbac', 'Редактирование
             <?= Html::textInput('description', $role->description); ?>
         </div>
 
-        <div class="form-group">
+        <div class="form-group col-md-6">
+            <?= Html::label(Yii::t('db_rbac', 'Роли')); ?>
+            <?= Html::checkboxList('permissions', $role_permit, $permissions, ['separator' => '<br>']); ?>
+        </div>
+
+        <div class="form-group col-md-6">
             <?= Html::label(Yii::t('db_rbac', 'Разрешенные доступы')); ?>
             <?= Html::checkboxList('permissions', $role_permit, $permissions, ['separator' => '<br>']); ?>
         </div>
