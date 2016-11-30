@@ -66,10 +66,14 @@ class AccessController extends Controller
 
     public function actionUpdateRole($name)
     {
-        $role = Yii::$app->authManager->getRole($name);
+        $auth = Yii::$app->authManager;
 
-        $permissions = ArrayHelper::map(Yii::$app->authManager->getPermissions(), 'name', 'description');
-        $role_permit = array_keys(Yii::$app->authManager->getPermissionsByRole($name));
+        var_dump($auth->getRoles());
+
+        $role = $auth->getRole($name);
+
+        $permissions = ArrayHelper::map($auth->getPermissions(), 'name', 'description');
+        $role_permit = array_keys($auth->getPermissionsByRole($name));
 
         if ($role instanceof Role) {
             if (Yii::$app->request->post('name')
@@ -87,7 +91,7 @@ class AccessController extends Controller
                     );
                 }
                 $role = $this->setAttribute($role, Yii::$app->request->post());
-                Yii::$app->authManager->update($name, $role);
+                $auth->update($name, $role);
                 $this->updatePermissions($permissions, Yii::$app->request->post('permissions', []), $role);
                 return $this->redirect(Url::toRoute([
                     'update-role',
