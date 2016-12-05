@@ -41,32 +41,14 @@ $this->params['breadcrumbs'][] = Yii::t('db_rbac', 'Редактирование
         /** @var RbacManager $auth */
         $auth = Yii::$app->authManager;
         $query = $auth->tree();
-        echo '<pre>';
+        /*echo '<pre>';
         var_dump($query->all());
-        echo '</pre>';
+        echo '</pre>';*/
         $dataProvider = new ActiveDataProvider([
-            'models' => $query->all(),
-            'pagination' => false
-        ]);
-        /*$array = [
-            ['child' => 4, 'parent' => 0],
-            ['child' => 5, 'parent' => 4],
-            ['child' => 6, 'parent' => 5]
-        ];
-        $dataProvider = new ArrayDataProvider([
-            'allModels' => $array,
+            'models' => $query,
             'pagination' => false
         ]);
 
-        foreach ($query->all() as $key => $row){
-            $array[] = [
-                'id' => $key,
-                'description' => $row['description'],
-                'parent' => $row['parent'],
-                'child' => $row['child'],
-            ];
-        }
-        */
         ?>
 
         <?= TreeGrid::widget([
@@ -78,11 +60,18 @@ $this->params['breadcrumbs'][] = Yii::t('db_rbac', 'Редактирование
                 'initialState' => 'collapsed',
             ],
             'columns' => [
-                //'name',
-                //'id',
-                'parent',
-                'child',
-                'description',
+                [
+                    'attribute' => 'child',
+                    'header' => 'Разрешение',
+                ],
+                [
+                    'attribute' => 'description',
+                    'header' => 'Описание',
+                ],
+                [
+                    'attribute' => 'parent',
+                    'header' => 'Родитель',
+                ],
                 [
                     'class' => 'yii\grid\CheckboxColumn',
                     'name' => 'permissions',
@@ -107,11 +96,6 @@ $this->params['breadcrumbs'][] = Yii::t('db_rbac', 'Редактирование
         <div class="form-group">
             <?= Html::label(Yii::t('db_rbac', 'Текстовое описание')); ?>
             <?= Html::textInput('description', $role->description); ?>
-        </div>
-
-        <div class="form-group col-md-6">
-            <?= Html::label(Yii::t('db_rbac', 'Роли')); ?>
-            <?= Html::checkboxList('permissions', $role_permit, $permissions, ['separator' => '<br>']); ?>
         </div>
 
         <div class="form-group col-md-6">
