@@ -20,11 +20,7 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('db_rbac', 'Управлен
 $this->params['breadcrumbs'][] = Yii::t('db_rbac', 'Редактирование');
 ?>
 <div class="news-index">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
     <div class="links-form">
-
         <?php
         if (!empty($error)) {
             ?>
@@ -50,7 +46,7 @@ $this->params['breadcrumbs'][] = Yii::t('db_rbac', 'Редактирование
         ]);
 
         ?>
-
+        <h3>Разрешенные доступы</h3>
         <?= TreeGrid::widget([
             'dataProvider' => $dataProvider,
             'keyColumnName' => 'child',
@@ -98,10 +94,10 @@ $this->params['breadcrumbs'][] = Yii::t('db_rbac', 'Редактирование
             <?= Html::textInput('description', $role->description); ?>
         </div>
 
-        <div class="form-group col-md-6">
+        <!--div class="form-group col-md-6">
             <?= Html::label(Yii::t('db_rbac', 'Разрешенные доступы')); ?>
             <?= Html::checkboxList('permissions', $role_permit, $permissions, ['separator' => '<br>']); ?>
-        </div>
+        </div-->
 
         <div class="form-group">
             <?= Html::submitButton(Yii::t('db_rbac', 'Сохранить'), ['class' => 'btn btn-success']) ?>
