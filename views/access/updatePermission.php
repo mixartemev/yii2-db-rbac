@@ -1,5 +1,5 @@
 <?php
-namespace developeruz\db_rbac\views\access;
+namespace mixartemev\db_rbac\views\access;
 use Yii;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
