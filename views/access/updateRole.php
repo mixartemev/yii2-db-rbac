@@ -36,10 +36,19 @@ $this->params['breadcrumbs'][] = Yii::t('db_rbac', 'Редактирование
         <?php ActiveForm::begin();
         /** @var RbacManager $auth */
         $auth = Yii::$app->authManager;
+        $userId = Yii::$app->user->id;
+
+        $roles = \yii\helpers\ArrayHelper::map($auth->getRoles(), 'name', 'description');
+        $child_roles = array_keys($auth->getChildRoles($role->name));
+
+        $pers = $auth->getPermissions();
+
+        foreach($auth->getRolesByUser($userId) as $role){
+            var_dump($auth->getPermissionsByRole($role->name));
+        }
+
         $query = $auth->tree();
-        /*echo '<pre>';
-        var_dump($query->all());
-        echo '</pre>';*/
+
         $dataProvider = new ActiveDataProvider([
             'models' => $query,
             'pagination' => false
@@ -94,10 +103,15 @@ $this->params['breadcrumbs'][] = Yii::t('db_rbac', 'Редактирование
             <?= Html::textInput('description', $role->description); ?>
         </div>
 
-        <!--div class="form-group col-md-6">
+        <div class="form-group col-md-6">
+            <?= Html::label(Yii::t('db_rbac', 'Разрешенные доступы')); ?>
+            <?= Html::checkboxList('permissions', $child_roles, $roles, ['separator' => '<br>']); ?>
+        </div>
+
+        <div class="form-group col-md-6">
             <?= Html::label(Yii::t('db_rbac', 'Разрешенные доступы')); ?>
             <?= Html::checkboxList('permissions', $role_permit, $permissions, ['separator' => '<br>']); ?>
-        </div-->
+        </div>
 
         <div class="form-group">
             <?= Html::submitButton(Yii::t('db_rbac', 'Сохранить'), ['class' => 'btn btn-success']) ?>
