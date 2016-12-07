@@ -68,11 +68,10 @@ class AccessController extends Controller
     {
         $auth = Yii::$app->authManager;
 
-        var_dump($auth->getRoles());
-
         $role = $auth->getRole($name);
 
         $permissions = ArrayHelper::map($auth->getPermissions(), 'name', 'description');
+        $roles = ArrayHelper::map($auth->getRoles(), 'name', 'description');
         $role_permit = array_keys($auth->getPermissionsByRole($name));
 
         if ($role instanceof Role) {
@@ -90,9 +89,11 @@ class AccessController extends Controller
                         ]
                     );
                 }
+                //var_dump(Yii::$app->request->post());die;
                 $role = $this->setAttribute($role, Yii::$app->request->post());
                 $auth->update($name, $role);
                 $this->updatePermissions($permissions, Yii::$app->request->post('permissions', []), $role);
+                $this->updateRoles($roles, Yii::$app->request->post('roles', []), $role);
                 return $this->redirect(Url::toRoute([
                     'update-role',
                     'name' => $role->name
@@ -213,6 +214,19 @@ class AccessController extends Controller
                 }
             } elseif(Yii::$app->authManager->hasChild($role, $permission)){
                 Yii::$app->authManager->removeChild($role, $permission);
+            }
+        }
+    }
+    protected function updateRoles($allRoles, $selectedRoles, $rootRole)
+    {
+        foreach ($allRoles as $roleName => $description) {
+            $role = Yii::$app->authManager->getRole($roleName);
+            if(in_array($roleName, $selectedRoles)) {
+                if (!Yii::$app->authManager->hasChild($rootRole, $role)){
+                    Yii::$app->authManager->addChild($rootRole, $role);
+                }
+            } elseif(Yii::$app->authManager->hasChild($rootRole, $role)){
+                Yii::$app->authManager->removeChild($rootRole, $role);
             }
         }
     }
