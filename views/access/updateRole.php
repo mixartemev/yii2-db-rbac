@@ -35,7 +35,6 @@ $this->params['breadcrumbs'][] = Yii::t('db_rbac', 'Редактирование
         <?php ActiveForm::begin();
         /** @var DbManager $auth */
         $auth = Yii::$app->authManager;
-        $userId = Yii::$app->user->id;
         $myRoles = $auth->getChildRoles($role->name);
         $myPermissions = $auth->getPermissionsByRole($role->name);
 
