@@ -65,7 +65,7 @@ $this->params['breadcrumbs'][] = Yii::t('db_rbac', 'Редактирование
         </div>
     <div class="row">
         <div class="form-group col-lg-7">
-            <h3>Доступные разрешения</h3>
+            <h4>Доступные разрешения</h4>
             <?= TreeGrid::widget([
                 'dataProvider' => $permissionsProvider,
                 'keyColumnName' => 'name',
@@ -103,7 +103,7 @@ $this->params['breadcrumbs'][] = Yii::t('db_rbac', 'Редактирование
         <?= ''//Html::checkboxList('permissions', $role_permit, $permissions, ['separator' => '<br>']); ?>
 
         <div class="form-group col-lg-5">
-            <h3>Вложенные Роли</h3>
+            <h4>Вложенные Роли</h4>
             <?= TreeGrid::widget([
                 'dataProvider' => $rolesProvider,
                 'keyColumnName' => 'name',
