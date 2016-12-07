@@ -8,6 +8,7 @@ use yii\data\ActiveDataProvider;
 use yii\db\Expression;
 use yii\db\Query;
 use yii\helpers\Html;
+use yii\rbac\Item;
 use yii\rbac\Role;
 use yii\widgets\ActiveForm;
 
@@ -32,58 +33,113 @@ $this->params['breadcrumbs'][] = Yii::t('db_rbac', 'Редактирование
         <?php
         }
         ?>
-<pre>
+
         <?php ActiveForm::begin();
         /** @var RbacManager $auth */
         $auth = Yii::$app->authManager;
         $userId = Yii::$app->user->id;
+        $myRoles = $auth->getChildRoles($role->name);
+        $myPermissions = $auth->getPermissionsByRole($role->name);
 
+        #$roles = \yii\helpers\ArrayHelper::map($auth->getRoles(), 'name', 'description');
+        #$child_roles = array_keys($auth->getChildRoles($role->name));
 
-        $roles = \yii\helpers\ArrayHelper::map($auth->getRoles(), 'name', 'description');
-        $child_roles = array_keys($auth->getChildRoles($role->name));
-
-        $pers = $auth->getPermissions();
-
-        foreach($auth->getRolesByUser($userId) as $role){
-            $myRoles[] = ($auth->getChildRoles($role->name));
-            $myPerms[] = ($auth->getPermissionsByRole($role->name));
-        }
-
-        $query = $auth->tree();
-
-        $dataProvider = new ActiveDataProvider([
-            'models' => $query,
-            'pagination' => false
+        $permissionsProvider = new \yii\data\ArrayDataProvider([
+            'allModels' => $auth->childrenList()
         ]);
-
-        print_r($auth->childrenList());
-        $res = [];
-        //$auth->childrenRecursive('admin', $auth->getChildrenList(), $res);
-        print_r($res);
+        $rolesProvider = new \yii\data\ArrayDataProvider([
+            'allModels' => $auth->childrenList([Item::TYPE_ROLE])
+        ]);
         ?>
-</pre>
 
+        <div class="row">
+            <div class="form-group col-xs-5">
+                <?= Html::label(Yii::t('db_rbac', 'Название роли')); ?>
+                <?= Html::textInput('name', $role->name); ?>
+            </div>
 
-        <div class="form-group">
-            <?= Html::label(Yii::t('db_rbac', 'Название роли')); ?>
-            <?= Html::textInput('name', $role->name); ?>
+            <div class="form-group col-xs-7">
+                <?= Html::label(Yii::t('db_rbac', 'Текстовое описание')); ?>
+                <?= Html::textInput('description', $role->description); ?>
+            </div>
         </div>
+    <div class="row">
+        <div class="form-group col-lg-7">
+            <h3>Доступные разрешения</h3>
+            <?= TreeGrid::widget([
+                'dataProvider' => $permissionsProvider,
+                'keyColumnName' => 'name',
+                'parentColumnName' => 'parent',
+                'parentRootValue' => $role->name,//'admin', //first parentId value
+                'columns' => [
+                    [
+                        'attribute' => 'name',
+                        'header' => 'Роль',
+                    ],
+                    [
+                        'attribute' => 'description',
+                        'header' => 'Описание',
+                    ],
+                    [
+                        'attribute' => 'parent',
+                        'header' => 'Родитель',
+                    ],
+                    [
+                        'class' => 'yii\grid\CheckboxColumn',
+                        'name' => 'permissions',
+                        'checkboxOptions' => function($model) use ($myPermissions, $role){
+                            $opt = $model['type'] == 2 && $model['parent']==$role->name //is permission and first-level child
+                                ? ['checked' => in_array($model['name'], array_keys($myPermissions)) ? true : false]
+                                : ['hidden' => true];
+                            return array_merge(['value' => $model['name']], $opt);
+                        },
 
-        <div class="form-group">
-            <?= Html::label(Yii::t('db_rbac', 'Текстовое описание')); ?>
-            <?= Html::textInput('description', $role->description); ?>
+                    ],
+                    //['class' => 'yii\grid\ActionColumn']
+                ]
+            ]);
+            ?>
         </div>
+        <?= ''//Html::checkboxList('permissions', $role_permit, $permissions, ['separator' => '<br>']); ?>
 
-        <div class="form-group col-md-6">
-            <?= Html::label(Yii::t('db_rbac', 'Разрешенные доступы')); ?>
-            <?= Html::checkboxList('permissions', $child_roles, $roles, ['separator' => '<br>']); ?>
+        <div class="form-group col-lg-5">
+            <h3>Вложенные Роли</h3>
+            <?= TreeGrid::widget([
+                'dataProvider' => $rolesProvider,
+                'keyColumnName' => 'name',
+                'parentColumnName' => 'parent',
+                'parentRootValue' => $role->name,//'admin', //first parentId value
+                'columns' => [
+                    [
+                        'attribute' => 'name',
+                        'header' => 'Роль',
+                    ],
+                    [
+                        'attribute' => 'description',
+                        'header' => 'Описание',
+                    ],
+                    [
+                        'attribute' => 'parent',
+                        'header' => 'Родитель',
+                    ],
+                    [
+                        'class' => 'yii\grid\CheckboxColumn',
+                        'name' => 'roles',
+                        'checkboxOptions' => function($model) use ($myRoles, $role){
+                            $opt = $model['parent']==$role->name //is first-level child
+                                ? ['checked' => in_array($model['name'], array_keys($myRoles)) ? true : false]
+                                : ['hidden' => true];
+                            return array_merge(['value' => $model['name']], $opt);
+                        },
+
+                    ],
+                    //['class' => 'yii\grid\ActionColumn']
+                ]
+            ]);
+            ?>
+            <?= ''//Html::checkboxList('permissions', $child_roles, $roles, ['separator' => '<br>']); ?>
         </div>
-
-        <div class="form-group col-md-6">
-            <?= Html::label(Yii::t('db_rbac', 'Разрешенные доступы')); ?>
-            <?= Html::checkboxList('permissions', $role_permit, $permissions, ['separator' => '<br>']); ?>
-        </div>
-
+    </div>
         <div class="form-group">
             <?= Html::submitButton(Yii::t('db_rbac', 'Сохранить'), ['class' => 'btn btn-success']) ?>
         </div>
