@@ -1,13 +1,11 @@
 <?php
 namespace mixartemev\db_rbac\views\access;
 
-use common\components\RbacManager;
 use leandrogehlen\treegrid\TreeGrid;
 use Yii;
-use yii\data\ActiveDataProvider;
-use yii\db\Expression;
-use yii\db\Query;
+use yii\data\ArrayDataProvider;
 use yii\helpers\Html;
+use yii\rbac\DbManager;
 use yii\rbac\Item;
 use yii\rbac\Role;
 use yii\widgets\ActiveForm;
@@ -35,7 +33,7 @@ $this->params['breadcrumbs'][] = Yii::t('db_rbac', 'Редактирование
         ?>
 
         <?php ActiveForm::begin();
-        /** @var RbacManager $auth */
+        /** @var DbManager $auth */
         $auth = Yii::$app->authManager;
         $userId = Yii::$app->user->id;
         $myRoles = $auth->getChildRoles($role->name);
@@ -44,10 +42,10 @@ $this->params['breadcrumbs'][] = Yii::t('db_rbac', 'Редактирование
         #$roles = \yii\helpers\ArrayHelper::map($auth->getRoles(), 'name', 'description');
         #$child_roles = array_keys($auth->getChildRoles($role->name));
 
-        $permissionsProvider = new \yii\data\ArrayDataProvider([
-            'allModels' => $auth->childrenList()
+        $permissionsProvider = new ArrayDataProvider([
+            'allModels' => $auth->childrenList() //todo метод не из стандартного менеджера
         ]);
-        $rolesProvider = new \yii\data\ArrayDataProvider([
+        $rolesProvider = new ArrayDataProvider([
             'allModels' => $auth->childrenList([Item::TYPE_ROLE])
         ]);
         ?>

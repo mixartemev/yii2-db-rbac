@@ -11,8 +11,27 @@
             "homepage": "http://developer.uz"
         }
     ],
+    "repositories":[
+        {
+            "type":"git",
+            "url":"https://github.com/mixartemev/yii2-treegrid"
+        },
+        {
+            "type":"package",
+            "package":{
+                "name":"mixartemev/yii2-treegrid",
+                "version":"1.0.2",
+                "source":{
+                    "type":"git",
+                    "url":"https://github.com/mixartemev/yii2-treegrid",
+                    "reference":"master"
+                }
+            }
+        }
+    ],
     "require": {
-        "yiisoft/yii2": "*"
+        "yiisoft/yii2": "*",
+        "mixartemev/yii2-treegrid": "dev-master"
     },
     "support": {
         "issues": "https://github.com/mixartemev/yii2-db-rbac/issues"
