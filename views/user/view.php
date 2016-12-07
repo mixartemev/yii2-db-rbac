@@ -39,7 +39,7 @@ echo TreeGrid::widget([
     'parentColumnName' => 'parent',
     'parentRootValue' => null, //first parentId value
     'pluginOptions' => [
-        'initialState' => 'collapsed',
+        //'initialState' => 'collapsed',
     ],
     'columns' => [
         [
