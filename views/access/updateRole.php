@@ -32,11 +32,12 @@ $this->params['breadcrumbs'][] = Yii::t('db_rbac', 'Редактирование
         <?php
         }
         ?>
-
+<pre>
         <?php ActiveForm::begin();
         /** @var RbacManager $auth */
         $auth = Yii::$app->authManager;
         $userId = Yii::$app->user->id;
+
 
         $roles = \yii\helpers\ArrayHelper::map($auth->getRoles(), 'name', 'description');
         $child_roles = array_keys($auth->getChildRoles($role->name));
@@ -44,7 +45,8 @@ $this->params['breadcrumbs'][] = Yii::t('db_rbac', 'Редактирование
         $pers = $auth->getPermissions();
 
         foreach($auth->getRolesByUser($userId) as $role){
-            var_dump($auth->getPermissionsByRole($role->name));
+            $myRoles[] = ($auth->getChildRoles($role->name));
+            $myPerms[] = ($auth->getPermissionsByRole($role->name));
         }
 
         $query = $auth->tree();
@@ -54,44 +56,13 @@ $this->params['breadcrumbs'][] = Yii::t('db_rbac', 'Редактирование
             'pagination' => false
         ]);
 
+        print_r($auth->childrenList());
+        $res = [];
+        //$auth->childrenRecursive('admin', $auth->getChildrenList(), $res);
+        print_r($res);
         ?>
-        <h3>Разрешенные доступы</h3>
-        <?= TreeGrid::widget([
-            'dataProvider' => $dataProvider,
-            'keyColumnName' => 'child',
-            'parentColumnName' => 'parent',
-            'parentRootValue' => 'admin', //first parentId value
-            'pluginOptions' => [
-                'initialState' => 'collapsed',
-            ],
-            'columns' => [
-                [
-                    'attribute' => 'child',
-                    'header' => 'Разрешение',
-                ],
-                [
-                    'attribute' => 'description',
-                    'header' => 'Описание',
-                ],
-                [
-                    'attribute' => 'parent',
-                    'header' => 'Родитель',
-                ],
-                [
-                    'class' => 'yii\grid\CheckboxColumn',
-                    'name' => 'permissions',
-                    'checkboxOptions' => function($model) use ($role_permit) {
-                        return [
-                            'value' => $model['child'],
-                            'checked' => in_array($model['child'], $role_permit) ? true : false,
-                        ];
-                    },
+</pre>
 
-                ],
-                //['class' => 'yii\grid\ActionColumn']
-            ]
-        ]);
-        ?>
 
         <div class="form-group">
             <?= Html::label(Yii::t('db_rbac', 'Название роли')); ?>
