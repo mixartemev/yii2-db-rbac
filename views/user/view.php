@@ -7,6 +7,7 @@ use mixartemev\db_rbac\interfaces\UserRbacInterface;
 use Yii;
 use yii\data\ArrayDataProvider;
 use yii\helpers\Html;
+use yii\rbac\Item;
 use yii\widgets\ActiveForm;
 
 /* @var UserRbacInterface $user */
@@ -20,12 +21,22 @@ use yii\widgets\ActiveForm;
 /** @var RbacManager $auth */
 $auth = Yii::$app->authManager;
 
-$res =[];
-$auth->childrenRecursive('admin', $res);
-$arr = [];
+/** массив всех родственных связей AuthItem-ов */
+$childList = $auth->childrenRowList();
+/** получаем из него Adjacency List ролей */
+$adjacencyListRoles = [];
 foreach($roles as $name => $description){
-    $parent = array_key_exists($name, $res) ? $res[$name] : null;
-    $arr []= ['name' => $name, 'description' => $description, 'parent' => $parent];
+    $parent = null;
+    foreach($childList as &$r){
+        if($name == $r['name']){
+            $parent = $r['parent'];
+            unset($r);
+            $adjacencyListRoles []= ['name' => $name, 'description' => $description, 'parent' => $parent];
+        }
+    }
+    if(!$parent){
+        $adjacencyListRoles []= ['name' => $name, 'description' => $description, 'parent' => $parent];
+    }
 }
 $myRoles = [];
 foreach($user_permit as $directRole){
@@ -34,7 +45,7 @@ foreach($user_permit as $directRole){
 $myRoles = array_unique($myRoles);
 
 echo TreeGrid::widget([
-    'dataProvider' => new ArrayDataProvider(['allModels' => $arr]),
+    'dataProvider' => new ArrayDataProvider(['allModels' => $adjacencyListRoles]),
     'keyColumnName' => 'name',
     'parentColumnName' => 'parent',
     'parentRootValue' => null, //first parentId value
@@ -42,18 +53,9 @@ echo TreeGrid::widget([
         //'initialState' => 'collapsed',
     ],
     'columns' => [
-        [
-            'attribute' => 'name',
-            'header' => 'Роль',
-        ],
-        [
-            'attribute' => 'description',
-            'header' => 'Описание',
-        ],
-        [
-            'attribute' => 'parent',
-            'header' => 'Родитель',
-        ],
+        ['attribute' => 'name', 'header' => 'Разрешение'],
+        ['attribute' => 'description', 'header' => 'Описание'],
+        ['attribute' => 'parent', 'header' => 'Родитель'],
         [
             'class' => 'yii\grid\CheckboxColumn',
             'name' => 'roles',

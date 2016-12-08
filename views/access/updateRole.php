@@ -94,7 +94,7 @@ $this->registerJs("
                         //'initialState' => 'collapsed',
                     ],
                     'columns' => [
-                        ['attribute' => 'name', 'header' => 'Разрешение'/*, 'headerOptions' => ['width' => '35%']*/],
+                        ['attribute' => 'name', 'header' => 'Разрешение'],
                         ['attribute' => 'description', 'header' => 'Описание'],
                         ['attribute' => 'parent', 'header' => 'Родитель'],
                         [
