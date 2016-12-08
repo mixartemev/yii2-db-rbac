@@ -71,8 +71,10 @@ class AccessController extends Controller
         $role = $auth->getRole($name);
 
         $permissions = ArrayHelper::map($auth->getPermissions(), 'name', 'description');
+        $permitted_permissions = array_keys($auth->getPermissionsByRole($name));
+
         $roles = ArrayHelper::map($auth->getRoles(), 'name', 'description');
-        $role_permit = array_keys($auth->getPermissionsByRole($name));
+        $permitted_roles = array_keys($auth->getChildRoles($role->name));
 
         if ($role instanceof Role) {
             if (Yii::$app->request->post('name')
@@ -84,7 +86,9 @@ class AccessController extends Controller
                         [
                             'role' => $role,
                             'permissions' => $permissions,
-                            'role_permit' => $role_permit,
+                            'permitted_permissions' => $permitted_permissions,
+                            'roles' => $roles,
+                            'permitted_roles' => $permitted_roles,
                             'error' => $this->error
                         ]
                     );
@@ -105,7 +109,9 @@ class AccessController extends Controller
                 [
                     'role' => $role,
                     'permissions' => $permissions,
-                    'role_permit' => $role_permit,
+                    'permitted_permissions' => $permitted_permissions,
+                    'roles' => $roles,
+                    'permitted_roles' => $permitted_roles,
                     'error' => $this->error
                 ]
             );
