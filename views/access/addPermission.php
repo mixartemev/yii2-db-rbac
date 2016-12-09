@@ -8,15 +8,12 @@ use yii\widgets\ActiveForm;
 
 /* @var $this View */
 /* @var $form ActiveForm */
-$this->title = Yii::t('db_rbac', 'Новое правило');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('db_rbac', 'Правила доступа'), 'url' => ['permission']];
-$this->params['breadcrumbs'][] = Yii::t('db_rbac', 'Новое правило');
+$this->title = Yii::t('db_rbac', 'Новое разрешение');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('db_rbac', 'Разрешения'), 'url' => ['permission']];
+$this->params['breadcrumbs'][] = Yii::t('db_rbac', 'Новое разрешение');
 ?>
-<div class="news-index">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <div class="links-form">
+<div class="box box-default">
+    <div class="box-body">
         <?php
         if (!empty($error)) {
             ?>
@@ -37,7 +34,7 @@ $this->params['breadcrumbs'][] = Yii::t('db_rbac', 'Новое правило');
         </div>
 
         <div class="form-group">
-            <?= Html::label(Yii::t('db_rbac', 'Разрешенный доступ')); ?>
+            <?= Html::label(Yii::t('db_rbac', 'Название')); ?>
             <?= Html::textInput('name'); ?>
             <?=Yii::t('db_rbac', '* Формат module/controller/action<br>site/article - доступ к странице site/article<br>site - доступ к любым action контроллера site');?>
         </div>
