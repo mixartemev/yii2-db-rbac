@@ -9,6 +9,7 @@
  */
 namespace mixartemev\db_rbac\controllers;
 
+use common\components\RbacManager;
 use Yii;
 use yii\web\Controller;
 use yii\web\BadRequestHttpException;
@@ -35,7 +36,10 @@ class AccessController extends Controller
 
     public function actionRole()
     {
-        return $this->render('role');
+        $roles = ArrayHelper::map(Yii::$app->authManager->getRoles(), 'name', 'description');
+        return $this->render('role', [
+            'roles' => $roles
+        ]);
     }
 
     public function actionAddRole()
@@ -74,6 +78,7 @@ class AccessController extends Controller
         $permitted_permissions = array_keys($auth->getPermissionsByRole($name));
 
         $roles = ArrayHelper::map($auth->getRoles(), 'name', 'description');
+
         $permitted_roles = array_keys($auth->getChildRoles($role->name));
 
         if ($role instanceof Role) {
@@ -157,7 +162,13 @@ class AccessController extends Controller
 
     public function actionUpdatePermission($name)
     {
-        $permit = Yii::$app->authManager->getPermission($name);
+        /** @var RbacManager $auth */
+        $auth = Yii::$app->authManager;
+        $permit = $auth->getPermission($name);
+        $permissions = ArrayHelper::map($auth->getPermissions(), 'name', 'description');
+        $direct_permitted_permissions = array_keys($auth->getChildren($name));
+        $all_permitted_permissions = array_keys($auth->getPermissionsByRole($permit->name));
+
         if ($permit instanceof Permission) {
             $permission = $this->clear(Yii::$app->request->post('name'));
             if ($permission && $this->validate($permission, $this->pattern4Permission)
@@ -166,14 +177,17 @@ class AccessController extends Controller
                 {
                     return $this->render('updatePermission', [
                         'permit' => $permit,
+                        'direct_permitted_permissions' => $direct_permitted_permissions,
+                        'all_permitted_permissions' => $all_permitted_permissions,
                         'error' => $this->error
                     ]);
                 }
 
                 $permit->name = $permission;
                 $permit->description = Yii::$app->request->post('description', '');
-                $permit->ruleName = Yii::$app->request->post('rule_name', '');
+                $permit->ruleName = Yii::$app->request->post('rule_name', null);
                 Yii::$app->authManager->update($name, $permit);
+                $this->updatePermissions($permissions, Yii::$app->request->post('permissions', []), $permit);
                 return $this->redirect(Url::toRoute([
                     'update-permission',
                     'name' => $permit->name
@@ -182,6 +196,8 @@ class AccessController extends Controller
 
             return $this->render('updatePermission', [
                 'permit' => $permit,
+                'direct_permitted_permissions' => $direct_permitted_permissions,
+                'all_permitted_permissions' => $all_permitted_permissions,
                 'error' => $this->error
             ]);
         } else throw new BadRequestHttpException(Yii::t('db_rbac', 'Страница не найдена'));
@@ -223,7 +239,7 @@ class AccessController extends Controller
             }
         }
     }
-    protected function updateRoles($allRoles, $selectedRoles, $rootRole)
+    protected function updateRoles($allRoles, $selectedRoles, $rootRole) //todo объединить эти 2 метода
     {
         foreach ($allRoles as $roleName => $description) {
             $role = Yii::$app->authManager->getRole($roleName);
