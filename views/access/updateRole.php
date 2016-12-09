@@ -29,8 +29,8 @@ $this->registerJs("
     });*/
 ");
 ?>
-<div class="news-index">
-    <div class="links-form">
+<div class="box box-default">
+    <div class="box-body">
         <?php
         if (!empty($error)) {
             ?>
@@ -96,7 +96,7 @@ $this->registerJs("
                     'columns' => [
                         ['attribute' => 'name', 'header' => 'Разрешение'],
                         ['attribute' => 'description', 'header' => 'Описание'],
-                        ['attribute' => 'parent', 'header' => 'Родитель'],
+                        //['attribute' => 'parent', 'header' => 'Родитель'],
                         [
                             'class' => 'yii\grid\CheckboxColumn',
                             'name' => 'permissions',
