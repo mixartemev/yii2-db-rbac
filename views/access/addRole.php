@@ -14,11 +14,8 @@ $this->title = Yii::t('db_rbac', 'Новая роль');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('db_rbac', 'Управление ролями'), 'url' => ['role']];
 $this->params['breadcrumbs'][] = Yii::t('db_rbac', 'Новая роль');
 ?>
-<div class="news-index">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <div class="links-form">
+<div class="box box-default">
+    <div class="box-body">
         <?php
         if (!empty($error)) {
             ?>
