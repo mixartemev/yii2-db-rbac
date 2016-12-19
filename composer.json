@@ -30,7 +30,6 @@
         }
     ],
     "require": {
-        "fxp/composer-asset-plugin": "^1.2.0",
         "yiisoft/yii2": "*",
         "mixartemev/yii2-treegrid": "dev-master"
     },
