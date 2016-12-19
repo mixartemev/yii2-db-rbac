@@ -51,14 +51,14 @@ $this->params['breadcrumbs'][] = Yii::t('db_rbac', 'Редактирование
                 'dataProvider' => new ArrayDataProvider([
                     'allModels' => $auth->allItems(),//$adjacencyListPermissions,
                     'pagination' => [
-                        'pageSize' => 50,
+                        'pageSize' => 5000,
                     ]
                 ]),
                 'keyColumnName' => 'name',
                 'parentColumnName' => 'parent',
                 'parentRootValue' => null, //first parentId value
                 'pluginOptions' => [
-                    //'initialState' => 'collapsed',
+                    'initialState' => 'collapsed',
                 ],
                 'columns' => [
                     ['attribute' => 'name', 'header' => 'Разрешение'],

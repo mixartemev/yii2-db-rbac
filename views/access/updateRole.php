@@ -84,14 +84,14 @@ $this->registerJs("
                     'dataProvider' => new ArrayDataProvider([
                         'allModels' => $auth->allItems(),//$adjacencyListPermissions,
                         'pagination' => [
-                            'pageSize' => 50,
+                            'pageSize' => 5000,
                         ]
                     ]),
                     'keyColumnName' => 'name',
                     'parentColumnName' => 'parent',
                     'parentRootValue' => null, //first parentId value
                     'pluginOptions' => [
-                        //'initialState' => 'collapsed',
+                        'initialState' => 'collapsed',
                     ],
                     'columns' => [
                         ['attribute' => 'name', 'header' => 'Разрешение'],
@@ -118,12 +118,12 @@ $this->registerJs("
             <div class="form-group col-lg-5">
                 <h4>Роли</h4>
                 <?= TreeGrid::widget([
-                    'dataProvider' => new ArrayDataProvider(['allModels' => $adjacencyListRoles]),
+                    'dataProvider' => new ArrayDataProvider(['allModels' => $adjacencyListRoles, 'pagination' => ['pageSize' => 1000]]),
                     'keyColumnName' => 'name',
                     'parentColumnName' => 'parent',
                     'parentRootValue' => null, //first parentId value
                     'pluginOptions' => [
-                        //'initialState' => 'collapsed',
+                        'initialState' => 'collapsed',
                     ],
                     'columns' => [
                         ['attribute' => 'name', 'header' => 'Роль'],

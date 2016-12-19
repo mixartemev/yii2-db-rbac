@@ -26,7 +26,7 @@ $dataProvider = new ArrayDataProvider([
         'attributes' => ['name', 'description'],
     ],
     'pagination' => [
-        'pageSize' => 50,
+        'pageSize' => 5000,
     ]
 ]);
 ?>
@@ -36,7 +36,7 @@ $dataProvider = new ArrayDataProvider([
     'parentColumnName' => 'parent',
     'parentRootValue' => null, //first parentId value
     'pluginOptions' => [
-        //'initialState' => 'collapsed',
+        'initialState' => 'collapsed',
     ],
     'columns' => [
         ['attribute' => 'name', 'header' => 'Разрешение'/*, 'headerOptions' => ['width' => '35%']*/],

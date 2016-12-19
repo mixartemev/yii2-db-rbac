@@ -49,7 +49,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attributes' => ['name', 'description'],
             ],
             'pagination' => [
-                'pageSize' => 50,
+                'pageSize' => 1000,
             ]
         ]);
         ?>
@@ -59,7 +59,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'parentColumnName' => 'parent',
             'parentRootValue' => null, //first parentId value
             'pluginOptions' => [
-                //'initialState' => 'collapsed',
+                'initialState' => 'collapsed',
             ],
             'columns' => [
                 ['attribute' => 'name', 'header' => 'Роль'],
