@@ -125,6 +125,27 @@ class AccessController extends Controller
         }
     }
 
+    public function actionAssignPermissionToRoles($permit)
+    {
+        $auth = Yii::$app->authManager;
+        $permission = $auth->getPermission($permit);
+        $allRoles = ArrayHelper::map($auth->getRoles(), 'name', 'description');
+        $selectedRoles = Yii::$app->request->post('permissions');
+
+        foreach ($allRoles as $roleName => $description) {
+            $role = Yii::$app->authManager->getRole($roleName);
+            if(@in_array($roleName, $selectedRoles)) {
+                if (!Yii::$app->authManager->hasChild($role, $permission)){
+                    Yii::$app->authManager->addChild($role, $permission);
+                }
+            } elseif(Yii::$app->authManager->hasChild($role, $permission)){
+                Yii::$app->authManager->removeChild($role, $permission);
+            }
+        }
+
+        return $this->redirect(Yii::$app->request->post('url'));
+    }
+
     public function actionDeleteRole($name)
     {
         $role = Yii::$app->authManager->getRole($name);
